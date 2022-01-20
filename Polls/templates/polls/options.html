@@ -1,0 +1,25 @@
+<html>
+    <body>
+
+<form action="{% url 'options' question.id %}" method="post">
+<br><br>
+    {% csrf_token %}
+<fieldset>
+        <legend><strong><h2>Option</h2></strong></legend>
+        Select question : 
+        <select name="quest" id="quest">
+            {% if question %}
+            <option>{{question}}</option>
+            {%endif%}
+        </select><br><br><br>
+        Enter option: <input type='text' size='50' name='option' required></input>
+        <br><br>
+        <div>
+        <input type="submit" value='Submit option'> </input>
+        <a href="{% url 'index' %}">Finish</a>
+        </div> 
+    </fieldset>
+    </form>  
+</body>
+</html>
+

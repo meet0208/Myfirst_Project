@@ -1,18 +1,28 @@
-{% extends "polls/base.html" %}
+<html>
+<head>
+    <style>
+        fieldset{
+             margin-top:50px; 
+             width : 50px;
+        }
+        body{
+            background-color : #CCF2FF;
+        }
 
+    </style>
+</head>
+    <body>
+<center>    
+    
+<form action="{% url 'save' %}" method="post">
+    {% csrf_token %}
+<fieldset>
+<legend><h2>Question</h2></legend>
+{% if message %}<p><strong>{{ message }}</strong></p>{% endif %}
+<input type='text' size='80'  name='question' required></input>
+<br><br>
+<input type="submit" value='Submit Poll'> </input>
+</center>
+</form>
 
-{% block content %}
-<br><br>
-Question
-<input type='text' size='80' name='question'></input>
-<br><br>
-option1
-<input type='text' size='30' name='choice1'></input>
-option2
-<input type='text' size='30' name='choice2'></input>
-option3
-<input type='text' size='30' name='choice3'></input>
-option4
-<input type='text' size='30' name='choice4'></input>
-<input type="submit"></input>
-{%endblock%}
+</body></html>

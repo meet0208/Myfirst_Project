@@ -1,4 +1,19 @@
 <html>
+    <head>
+        <style>
+            fieldset{
+                 margin-top:50px; 
+            }
+            body{
+                background-color : #CCF2FF;
+            }
+            
+            #r{
+                padding-right: 0px;
+            }
+    
+        </style>
+    </head>
     <body>
 
 <form action="{% url 'vote' question.id %}" method="post">
@@ -11,7 +26,10 @@
             <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
         {% endfor %}
     </fieldset><br>
+    <div>
     <input type="submit" value="Vote" >
-    </form>
+    <a href ="{%url 'choice' question.id%}" id='r'>Create Options</a>
+    </div>    
+</form> 
 </body> 
 </html>

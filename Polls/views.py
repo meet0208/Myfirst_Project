@@ -1,15 +1,17 @@
-from datetime import date
+from datetime import  datetime
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from .models import Question,Choice
 
 
 def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    latest_question_list = Question.objects.order_by('-pub_date')[:]
+    
     context = {
         'latest_question_list': latest_question_list,
     }
+    
     return render(request, 'polls/index.html', context)
 
 
@@ -33,6 +35,7 @@ def vote(request, question_id):
     
 def detail(request,question_id):
     question = get_object_or_404(Question, pk=question_id)
+    print(question)
     return render(request, 'polls/details.html', {'question': question})
 
 
@@ -41,20 +44,36 @@ def results(request, question_id):
     return render(request, 'polls/results.html', {'question': question})
 
 def create(request):
-    
     return render(request, 'polls/create.html')
 
-'''def save(request,question_id):
-     if request.method=="POST":
+def save(request):
+    if request.method=="POST":
         question = request.POST['question']
-        option1 = request.POST['choice1']
-        option2 = request.POST['choice2']
-        option3 = request.POST['choice3']
-        option4 = request.POST['choice4']
+        for question1 in Question.objects.values_list('question_text'):
+            print(question1[0])
+            if question==question1[0]:
+                
+                return render(request, 'polls/create.html',{'message':'Question alreay exists'})
 
-        q=Question(question_text=question,pub_date=date.today())
-        q.save()
-        o=Choice(question=get_object_or_404(Question, pk=question_id),choice_text=option1) 
-        o.save()   
+        q=Question(question_text=question,pub_date=datetime.today())
+        q.save()   
+        question= Question.objects.only(id).filter(question)
+        return render(request, 'polls/options.html',{'question':question})
 
-        return render(request, 'polls/index.html')'''
+def options(request,question_id):
+        if request.method=="POST":
+            question = get_object_or_404(Question, pk=question_id)
+            choice = request.POST['option']   
+            c=Choice(choice_text=choice,question=question)
+            c.save()
+                
+            return render(request, 'polls/options.html',{'question':question})
+       
+
+def choice(request,question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, 'polls/options.html',{'question':question})
+
+    
+
+
