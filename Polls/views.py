@@ -57,7 +57,7 @@ def save(request):
 
         q=Question(question_text=question,pub_date=datetime.today())
         q.save()   
-        question= Question.objects.only(id).filter(question)
+        question= Question.objects.get(question_text=question)
         return render(request, 'polls/options.html',{'question':question})
 
 def options(request,question_id):
