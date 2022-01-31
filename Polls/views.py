@@ -72,6 +72,7 @@ def options(request,question_id):
 
 def choice(request,question_id):
     question = get_object_or_404(Question, pk=question_id)
+    print(question)
     return render(request, 'polls/options.html',{'question':question})
 
     
